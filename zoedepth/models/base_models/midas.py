@@ -170,8 +170,6 @@ class Resize(object):
 
     def __call__(self, x):
         width, height = self.get_size(*x.shape[-2:][::-1])
-        height = int(height)
-        width = int(width)
         return nn.functional.interpolate(x, (height, width), mode='bilinear', align_corners=True)
 
 class PrepForMidas(object):
@@ -340,7 +338,7 @@ class MidasCore(nn.Module):
             kwargs = MidasCore.parse_img_size(kwargs)
         img_size = kwargs.pop("img_size", [384, 384])
         print("img_size", img_size)
-        midas = torch.hub.load("intel-isl/MiDaS", midas_model_type,
+        midas = torch.hub.load("AyaanShah2204/MiDaS", midas_model_type,
                                pretrained=use_pretrained_midas, force_reload=force_reload)
         kwargs.update({'keep_aspect_ratio': force_keep_ar})
         midas_core = MidasCore(midas, trainable=train_midas, fetch_features=fetch_features,
